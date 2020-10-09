@@ -38,3 +38,40 @@ The table below contains the input variables available for the root Terraform mo
 
 No outputs are currently defined for the module.
 
+## Basic Module use
+
+Bellow is a basic example of using the module
+
+```HCL
+module "tfc_agent" {
+  source = "github.com/slavrd/terraform-aws-tfc-agent"
+
+  name_prefix = "example-tfc-agents-"
+  common_tags = {
+    owner     = "example@tfc.agents"
+    project   = "example-tfc-agents"
+    terraform = "true"
+  }
+
+  vpc_id     = "vpc-xxxxxx"
+  subnet_ids = ["subnet-xxxx", "subnet-yyyy"]
+
+  tfc_agent_count = 5
+
+  aws_cloud_watch_settings = {
+    awslogs-group         = "/ecs/tfc-agents"
+    awslogs-region        = "eu-central-1"
+    awslogs-stream-prefix = "tfc-agent-"
+    log-retention-days    = 30
+  }
+
+  tfc_agent_environment_variables = {
+    TFC_AGENT_TOKEN     = "REPLACE_WITH_VALID_TFC_AGENT_POOL_TOKEN"
+    TFC_AGENT_LOG_LEVEL = "TRACE"
+    TFC_AGENT_SINGLE    = "TRUE"
+  }
+
+  tfc_agent_container_tag    = "0.1.3"
+  tfc_agent_assign_public_ip = true
+}
+```
