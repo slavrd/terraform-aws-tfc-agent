@@ -1,0 +1,17 @@
+[  
+  {
+    "name": "tfc-agent",
+    "image": "hashicorp/tfc-agent:${tfc_agent_container_tag}",
+    "memory": ${tfc_agent_container_memory},
+    "essential": true,
+    "environment" : ${environment_variables},
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${awslogs-group}",
+            "awslogs-region": "${awslogs-region}",
+            "awslogs-stream-prefix": "${awslogs-stream-prefix}"
+        }
+    }
+  }
+]
